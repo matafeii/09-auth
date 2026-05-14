@@ -13,11 +13,11 @@ import css from "../../NotesPage.module.css";
 
 const PER_PAGE = 12;
 
-export interface NotesFilterClientProps {
+export interface NotesClientProps {
   tag: string;
 }
 
-const NotesFilterClient = ({ tag }: NotesFilterClientProps) => {
+const NotesClient = ({ tag }: NotesClientProps) => {
   const [page, setPage] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
@@ -89,4 +89,4 @@ const NotesFilterClient = ({ tag }: NotesFilterClientProps) => {
   );
 };
 
-export default NotesFilterClient;
+export default NotesClient;
