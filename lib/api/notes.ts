@@ -1,21 +1,6 @@
-import axios, { type AxiosResponse } from "axios";
-import type { Note, NoteTag } from "../types/note";
-
-const API_URL = "https://notehub-public.goit.study/api";
-const token = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
-
-const api = axios.create({
-  baseURL: API_URL,
-});
-
-api.interceptors.request.use((config) => {
-  if (!token) {
-    throw new Error("Missing NEXT_PUBLIC_NOTEHUB_TOKEN environment variable");
-  }
-
-  config.headers.Authorization = `Bearer ${token}`;
-  return config;
-});
+import type { AxiosResponse } from "axios";
+import type { NewNoteData, Note } from "../../types/note";
+import { api } from "./client";
 
 export interface FetchNotesParams {
   page: number;
@@ -29,11 +14,7 @@ export interface FetchNotesResponse {
   totalPages: number;
 }
 
-export interface CreateNoteParams {
-  title: string;
-  content: string;
-  tag: NoteTag;
-}
+export type CreateNoteParams = NewNoteData;
 
 export const fetchNotes = async (
   params: FetchNotesParams,
@@ -42,9 +23,11 @@ export const fetchNotes = async (
     page: params.page,
     perPage: params.perPage,
   };
+
   if (params.search) {
     queryParams.search = params.search;
   }
+
   if (params.tag) {
     queryParams.tag = params.tag;
   }

@@ -1,10 +1,9 @@
 import { useState } from "react";
+import Link from "next/link";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useDebouncedCallback } from "use-debounce";
 import SearchBox from "../SearchBox/SearchBox";
 import Pagination from "../Pagination/Pagination";
-import Modal from "../Modal/Modal";
-import NoteForm from "../NoteForm/NoteForm";
 import NoteList from "../NoteList/NoteList";
 import { fetchNotes } from "../../lib/api";
 import css from "./App.module.css";
@@ -15,7 +14,6 @@ const App = () => {
   const [page, setPage] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const debouncedSetSearch = useDebouncedCallback((value: string) => {
     setDebouncedSearch(value);
@@ -61,13 +59,9 @@ const App = () => {
             forcePage={page}
           />
         )}
-        <button
-          className={css.button}
-          onClick={() => setIsModalOpen(true)}
-          type="button"
-        >
+        <Link className={css.button} href="/notes/action/create">
           Create note +
-        </button>
+        </Link>
       </header>
 
       {isLoading && <p className={css.status}>Loading notes...</p>}
@@ -78,12 +72,6 @@ const App = () => {
       )}
 
       {notes.length > 0 && <NoteList notes={notes} />}
-
-      {isModalOpen && (
-        <Modal onClose={() => setIsModalOpen(false)}>
-          <NoteForm onCancel={() => setIsModalOpen(false)} />
-        </Modal>
-      )}
     </div>
   );
 };
