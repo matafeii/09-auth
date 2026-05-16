@@ -62,12 +62,14 @@ export const getMe = async (): Promise<User> => {
 };
 
 export const checkSession = async (): Promise<SessionResponse> => {
-  const response: AxiosResponse<SessionResponse> =
-    await serverApi.get("/auth/session", {
+  const response: AxiosResponse<SessionResponse> = await serverApi.get(
+    "/auth/session",
+    {
       headers: {
         Cookie: await getCookieHeader(),
       },
-    });
+    },
+  );
 
   return response.data;
 };

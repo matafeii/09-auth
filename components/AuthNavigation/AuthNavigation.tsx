@@ -24,20 +24,12 @@ const AuthNavigation = () => {
     return (
       <>
         <li className={css.navigationItem}>
-          <Link
-            href="/sign-in"
-            prefetch={false}
-            className={css.navigationLink}
-          >
+          <Link href="/sign-in" prefetch={false} className={css.navigationLink}>
             Login
           </Link>
         </li>
         <li className={css.navigationItem}>
-          <Link
-            href="/sign-up"
-            prefetch={false}
-            className={css.navigationLink}
-          >
+          <Link href="/sign-up" prefetch={false} className={css.navigationLink}>
             Sign up
           </Link>
         </li>

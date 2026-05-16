@@ -17,6 +17,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const pathname = usePathname();
   const router = useRouter();
   const setUser = useAuthStore((state) => state.setUser);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const clearIsAuthenticated = useAuthStore(
     (state) => state.clearIsAuthenticated,
   );
@@ -66,7 +67,10 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     };
   }, [pathname, router, setUser, clearIsAuthenticated]);
 
-  if (isChecking && isPrivatePath(pathname)) {
+  if (
+    isPrivatePath(pathname) &&
+    (isChecking || (!isChecking && !isAuthenticated))
+  ) {
     return <p>Loading...</p>;
   }
 
