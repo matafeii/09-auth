@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-query";
 import type { Metadata } from "next";
 import NotesClient from "./Notes.client";
-import { fetchNotes } from "../../../../lib/api";
+import { fetchNotes } from "../../../../../lib/api/serverApi";
 
 const PER_PAGE = 12;
 const siteUrl = "https://notehub.com";
