@@ -1,5 +1,5 @@
-import NotePreview from "../../../../components/NotePreview/NotePreview";
 import { fetchNoteById } from "../../../../lib/api/serverApi";
+import NotePreviewClient from "./NotePreview.client";
 
 export default async function NotePreviewPage({
   params,
@@ -9,5 +9,5 @@ export default async function NotePreviewPage({
   const { id } = await params;
   const note = await fetchNoteById(id);
 
-  return <NotePreview note={note} />;
+  return <NotePreviewClient note={note} />;
 }

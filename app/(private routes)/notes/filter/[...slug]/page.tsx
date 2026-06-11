@@ -1,5 +1,5 @@
-import App from "../../../../../components/App/App";
 import type { NoteTag } from "../../../../../types/note";
+import NotesClient from "./Notes.client";
 
 const tags: NoteTag[] = [
   "Work",
@@ -30,5 +30,5 @@ export default async function NotesFilterSlugPage({
   const { slug } = await params;
   const tag = normalizeTag(slug?.[0]);
 
-  return <App tag={tag} />;
+  return <NotesClient tag={tag} />;
 }
