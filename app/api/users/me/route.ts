@@ -1,32 +1,61 @@
-import { NextRequest, NextResponse } from 'next/server';
+export const dynamic = "force-dynamic";
+
+import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import { isAxiosError } from "axios";
+import { api } from "../../api";
 
 export async function GET() {
   try {
-    // TODO: Implement get current user logic
+    const cookieStore = await cookies();
+    const res = await api.get("/users/me", {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    });
+
+    return NextResponse.json(res.data, { status: res.status });
+  } catch (error) {
+    if (isAxiosError(error)) {
+      console.dir(error.response?.data);
+      return NextResponse.json(
+        { error: error.message, response: error.response?.data },
+        { status: error.response?.status ?? 500 },
+      );
+    }
+
+    console.dir({ message: (error as Error).message });
     return NextResponse.json(
-      { message: 'Get current user endpoint' },
-      { status: 200 }
-    );
-  } catch {
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal Server Error" },
+      { status: 500 },
     );
   }
 }
 
-export async function PUT(request: NextRequest) {
+export async function PATCH(request: Request) {
   try {
-    await request.json();
-    // TODO: Implement update current user logic
+    const cookieStore = await cookies();
+    const body = await request.json();
+    const res = await api.patch("/users/me", body, {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    });
+
+    return NextResponse.json(res.data, { status: res.status });
+  } catch (error) {
+    if (isAxiosError(error)) {
+      console.dir(error.response?.data);
+      return NextResponse.json(
+        { error: error.message, response: error.response?.data },
+        { status: error.response?.status ?? 500 },
+      );
+    }
+
+    console.dir({ message: (error as Error).message });
     return NextResponse.json(
-      { message: 'Update current user endpoint' },
-      { status: 200 }
-    );
-  } catch {
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal Server Error" },
+      { status: 500 },
     );
   }
 }

@@ -4,9 +4,33 @@ import type { NextRequest } from "next/server";
 const privateRoutes = ["/profile", "/notes"];
 const publicRoutes = ["/sign-in", "/sign-up"];
 
+const applySetCookie = (target: NextResponse, source: Response) => {
+  const setCookie = source.headers.get("set-cookie");
+
+  if (setCookie) {
+    target.headers.set("Set-Cookie", setCookie);
+  }
+
+  return target;
+};
+
+const isSessionValid = async (response: Response) => {
+  if (!response.ok) {
+    return false;
+  }
+
+  try {
+    const data = (await response.clone().json()) as { success?: boolean };
+    return data.success !== false;
+  } catch {
+    return true;
+  }
+};
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const cookieHeader = request.headers.get("cookie") || "";
+  const sessionUrl = new URL("/api/auth/session", request.url);
 
   const isPrivateRoute = privateRoutes.some((route) =>
     pathname.startsWith(route)
@@ -15,18 +39,17 @@ export async function middleware(request: NextRequest) {
 
   if (isPrivateRoute) {
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/session`,
-        {
-          headers: {
-            Cookie: cookieHeader,
-          },
-        }
-      );
+      const response = await fetch(sessionUrl, {
+        headers: {
+          Cookie: cookieHeader,
+        },
+      });
 
-      if (!response.ok) {
+      if (!(await isSessionValid(response))) {
         return NextResponse.redirect(new URL("/sign-in", request.url));
       }
+
+      return applySetCookie(NextResponse.next(), response);
     } catch {
       return NextResponse.redirect(new URL("/sign-in", request.url));
     }
@@ -34,17 +57,17 @@ export async function middleware(request: NextRequest) {
 
   if (isPublicRoute) {
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/session`,
-        {
-          headers: {
-            Cookie: cookieHeader,
-          },
-        }
-      );
+      const response = await fetch(sessionUrl, {
+        headers: {
+          Cookie: cookieHeader,
+        },
+      });
 
-      if (response.ok) {
-        return NextResponse.redirect(new URL("/profile", request.url));
+      if (await isSessionValid(response)) {
+        return applySetCookie(
+          NextResponse.redirect(new URL("/profile", request.url)),
+          response,
+        );
       }
     } catch {
       // User is not authenticated, allow access to public routes

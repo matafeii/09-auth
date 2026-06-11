@@ -1,32 +1,74 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import { isAxiosError } from "axios";
+import { api } from "../api";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    // TODO: Implement get all notes logic
+    const cookieStore = await cookies();
+    const search = request.nextUrl.searchParams.get("search") ?? "";
+    const page = Number(request.nextUrl.searchParams.get("page") ?? 1);
+    const perPage = Number(request.nextUrl.searchParams.get("perPage") ?? 12);
+    const sortBy = request.nextUrl.searchParams.get("sortBy") ?? "";
+    const rawTag = request.nextUrl.searchParams.get("tag") ?? "";
+    const tag = rawTag === "All" ? "" : rawTag;
+
+    const res = await api("/notes", {
+      params: {
+        ...(search !== "" && { search }),
+        page,
+        perPage,
+        ...(tag && { tag }),
+        ...(sortBy && { sortBy }),
+      },
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    });
+
+    return NextResponse.json(res.data, { status: res.status });
+  } catch (error) {
+    if (isAxiosError(error)) {
+      console.dir(error.response?.data);
+      return NextResponse.json(
+        { error: error.message, response: error.response?.data },
+        { status: error.response?.status ?? 500 },
+      );
+    }
+
+    console.dir({ message: (error as Error).message });
     return NextResponse.json(
-      { message: 'Get all notes endpoint' },
-      { status: 200 }
-    );
-  } catch {
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal Server Error" },
+      { status: 500 },
     );
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    await request.json();
-    // TODO: Implement create note logic
+    const cookieStore = await cookies();
+    const body = await request.json();
+    const res = await api.post("/notes", body, {
+      headers: {
+        Cookie: cookieStore.toString(),
+        "Content-Type": "application/json",
+      },
+    });
+
+    return NextResponse.json(res.data, { status: res.status });
+  } catch (error) {
+    if (isAxiosError(error)) {
+      console.dir(error.response?.data);
+      return NextResponse.json(
+        { error: error.message, response: error.response?.data },
+        { status: error.response?.status ?? 500 },
+      );
+    }
+
+    console.dir({ message: (error as Error).message });
     return NextResponse.json(
-      { message: 'Create note endpoint' },
-      { status: 201 }
-    );
-  } catch {
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal Server Error" },
+      { status: 500 },
     );
   }
 }

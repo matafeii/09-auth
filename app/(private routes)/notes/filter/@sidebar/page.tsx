@@ -1,8 +1,32 @@
+import Link from "next/link";
+import css from "./Sidebar.module.css";
+
+const tags = [
+  "All",
+  "Todo",
+  "Work",
+  "Personal",
+  "Meeting",
+  "Shopping",
+  "Ideas",
+  "Travel",
+  "Finance",
+  "Health",
+  "Important",
+];
+
 export default function SidebarPage() {
   return (
-    <aside>
-      <h2>Sidebar</h2>
-      {/* TODO: Implement notes filter sidebar */}
+    <aside className={css.sidebar}>
+      <ul className={css.list}>
+        {tags.map((tag) => (
+          <li key={tag}>
+            <Link className={css.link} href={`/notes/filter/${tag.toLowerCase()}`}>
+              {tag}
+            </Link>
+          </li>
+        ))}
+      </ul>
     </aside>
   );
 }

@@ -1,8 +1,5 @@
+import App from "../../../components/App/App";
+
 export default function NotesPage() {
-  return (
-    <div>
-      <h1>Notes</h1>
-      {/* TODO: Display list of notes */}
-    </div>
-  );
+  return <App />;
 }

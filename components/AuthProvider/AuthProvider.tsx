@@ -14,7 +14,12 @@ export default function AuthProvider({
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        await checkSession();
+        const session = await checkSession();
+
+        if (session?.success === false) {
+          throw new Error("No active session");
+        }
+
         const user = await getMe();
         setUser(user);
       } catch {

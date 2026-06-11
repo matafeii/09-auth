@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import Link from "next/link";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
@@ -10,7 +12,11 @@ import css from "./App.module.css";
 
 const PER_PAGE = 12;
 
-const App = () => {
+export interface AppProps {
+  tag?: string;
+}
+
+const App = ({ tag }: AppProps) => {
   const [page, setPage] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
@@ -31,12 +37,13 @@ const App = () => {
     isError,
     error,
   } = useQuery({
-    queryKey: ["notes", page, debouncedSearch],
+    queryKey: ["notes", page, debouncedSearch, tag],
     queryFn: () =>
       fetchNotes({
         page: page + 1,
         perPage: PER_PAGE,
         search: debouncedSearch || undefined,
+        tag,
       }),
     placeholderData: keepPreviousData,
   });

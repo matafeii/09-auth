@@ -8,12 +8,12 @@ import css from "./AuthNavigation.module.css";
 
 export default function AuthNavigation() {
   const router = useRouter();
-  const { isAuthenticated, user } = useAuthStore();
+  const { clearIsAuthenticated, isAuthenticated, user } = useAuthStore();
 
   const handleLogout = async () => {
     try {
       await logout();
-      useAuthStore.setState({ user: null, isAuthenticated: false });
+      clearIsAuthenticated();
       router.push("/sign-in");
     } catch {
       console.error("Logout failed");
@@ -34,7 +34,7 @@ export default function AuthNavigation() {
             prefetch={false}
             className={css.navigationLink}
           >
-            Sign up
+            Register
           </Link>
         </li>
       </>

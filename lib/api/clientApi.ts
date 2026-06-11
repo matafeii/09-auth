@@ -12,15 +12,17 @@ export interface LoginRequest {
 }
 
 export interface AuthResponse {
-  user: User;
+  username: string;
+  email: string;
+  avatar: string;
 }
 
-export const register = async (credentials: RegisterRequest) => {
+export const register = async (credentials: RegisterRequest): Promise<User> => {
   const response = await api.post<AuthResponse>("/auth/register", credentials);
   return response.data;
 };
 
-export const login = async (credentials: LoginRequest) => {
+export const login = async (credentials: LoginRequest): Promise<User> => {
   const response = await api.post<AuthResponse>("/auth/login", credentials);
   return response.data;
 };
@@ -39,8 +41,7 @@ export const getMe = async () => {
   return response.data;
 };
 
-export const updateMe = async (data: { username?: string }) => {
+export const updateMe = async (data: { email?: string; username?: string }) => {
   const response = await api.patch<User>("/users/me", data);
   return response.data;
 };
-
