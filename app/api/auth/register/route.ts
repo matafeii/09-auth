@@ -2,13 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    await request.json();
     // TODO: Implement registration logic
     return NextResponse.json(
       { message: 'Registration endpoint' },
       { status: 201 }
     );
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
