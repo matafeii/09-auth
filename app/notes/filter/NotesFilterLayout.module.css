@@ -1,0 +1,16 @@
+.layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 24px;
+  padding: 24px 16px;
+}
+
+.sidebar {
+  position: sticky;
+  top: 16px;
+  align-self: start;
+}
+
+.content {
+  min-width: 0;
+}
