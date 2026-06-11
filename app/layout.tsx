@@ -39,10 +39,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  modal,
 }: {
   children: ReactNode;
-  modal: ReactNode;
 }) {
   return (
     <html lang="en">
@@ -51,7 +49,6 @@ export default function RootLayout({
           <AuthProvider>
             <Header />
             {children}
-            {modal}
             <Footer />
           </AuthProvider>
         </TanStackProvider>

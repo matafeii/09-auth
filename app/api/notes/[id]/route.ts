@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     // TODO: Implement get note by ID logic
     return NextResponse.json(
-      { message: 'Get note endpoint', id: params.id },
+      { message: 'Get note endpoint', id },
       { status: 200 }
     );
   } catch (error) {
@@ -15,12 +16,13 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const body = await request.json();
+    const { id } = await params;
     // TODO: Implement update note logic
     return NextResponse.json(
-      { message: 'Update note endpoint', id: params.id },
+      { message: 'Update note endpoint', id },
       { status: 200 }
     );
   } catch (error) {
@@ -31,11 +33,12 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     // TODO: Implement delete note logic
     return NextResponse.json(
-      { message: 'Delete note endpoint', id: params.id },
+      { message: 'Delete note endpoint', id },
       { status: 200 }
     );
   } catch (error) {
