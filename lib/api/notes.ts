@@ -1,6 +1,6 @@
 import type { AxiosResponse } from "axios";
 import type { NewNoteData, Note } from "../../types/note";
-import { api } from "./client";
+import { api } from "./api";
 
 export interface FetchNotesParams {
   page: number;

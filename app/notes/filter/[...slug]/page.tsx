@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-query";
 import type { Metadata } from "next";
 import NotesClient from "./Notes.client";
-import { fetchNotes } from "../../../../lib/api";
+import { fetchNotes } from "../../../../lib/api/serverApi";
 
 const PER_PAGE = 12;
 const siteUrl = "https://notehub.com";
@@ -59,6 +59,7 @@ export default async function NotesFilterPage({ params }: Props) {
       fetchNotes({
         page: 1,
         perPage: PER_PAGE,
+        search: "",
         tag: tag === "all" ? undefined : tag,
       }),
   });
