@@ -7,13 +7,14 @@ import { useDebouncedCallback } from "use-debounce";
 import SearchBox from "../SearchBox/SearchBox";
 import Pagination from "../Pagination/Pagination";
 import NoteList from "../NoteList/NoteList";
-import { fetchNotes } from "../../lib/api";
+import { fetchNotes } from "../../lib/api/clientApi";
+import type { NoteTag } from "../../types/note";
 import css from "./App.module.css";
 
 const PER_PAGE = 12;
 
 export interface AppProps {
-  tag?: string;
+  tag?: NoteTag;
 }
 
 const App = ({ tag }: AppProps) => {

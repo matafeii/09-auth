@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { isAxiosError } from "axios";
-import { api } from "../../api";
+import { api, logErrorResponse } from "../../api";
 
 export async function GET() {
   try {
@@ -17,14 +17,14 @@ export async function GET() {
     return NextResponse.json(res.data, { status: res.status });
   } catch (error) {
     if (isAxiosError(error)) {
-      console.dir(error.response?.data);
+      logErrorResponse(error.response?.data);
       return NextResponse.json(
         { error: error.message, response: error.response?.data },
-        { status: error.response?.status ?? 500 },
+        { status: error.status },
       );
     }
 
-    console.dir({ message: (error as Error).message });
+    logErrorResponse(error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 },
@@ -45,14 +45,14 @@ export async function PATCH(request: Request) {
     return NextResponse.json(res.data, { status: res.status });
   } catch (error) {
     if (isAxiosError(error)) {
-      console.dir(error.response?.data);
+      logErrorResponse(error.response?.data);
       return NextResponse.json(
         { error: error.message, response: error.response?.data },
-        { status: error.response?.status ?? 500 },
+        { status: error.status },
       );
     }
 
-    console.dir({ message: (error as Error).message });
+    logErrorResponse(error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 },

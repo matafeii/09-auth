@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { parse } from "cookie";
 import { isAxiosError } from "axios";
-import { api } from "../../api";
+import { api, logErrorResponse } from "../../api";
 
 export async function GET() {
   try {
@@ -49,11 +49,11 @@ export async function GET() {
     return NextResponse.json({ success: false }, { status: 200 });
   } catch (error) {
     if (isAxiosError(error)) {
-      console.dir(error.response?.data);
+      logErrorResponse(error.response?.data);
       return NextResponse.json({ success: false }, { status: 200 });
     }
 
-    console.dir({ message: (error as Error).message });
+    logErrorResponse(error);
     return NextResponse.json({ success: false }, { status: 200 });
   }
 }

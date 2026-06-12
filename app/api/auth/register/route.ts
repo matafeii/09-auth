@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { parse } from "cookie";
 import { isAxiosError } from "axios";
-import { api } from "../../api";
+import { api, logErrorResponse } from "../../api";
 
 export async function POST(req: NextRequest) {
   try {
@@ -37,14 +37,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   } catch (error) {
     if (isAxiosError(error)) {
-      console.dir(error.response?.data);
+      logErrorResponse(error.response?.data);
       return NextResponse.json(
         { error: error.message, response: error.response?.data },
-        { status: error.response?.status ?? 500 },
+        { status: error.status },
       );
     }
 
-    console.dir({ message: (error as Error).message });
+    logErrorResponse(error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 },

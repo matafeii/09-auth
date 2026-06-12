@@ -1,15 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { isAxiosError } from "axios";
-import { api } from "../api";
+import { api, logErrorResponse } from "../api";
 
 export async function GET(request: NextRequest) {
   try {
     const cookieStore = await cookies();
     const search = request.nextUrl.searchParams.get("search") ?? "";
     const page = Number(request.nextUrl.searchParams.get("page") ?? 1);
-    const perPage = Number(request.nextUrl.searchParams.get("perPage") ?? 12);
-    const sortBy = request.nextUrl.searchParams.get("sortBy") ?? "";
     const rawTag = request.nextUrl.searchParams.get("tag") ?? "";
     const tag = rawTag === "All" ? "" : rawTag;
 
@@ -17,9 +15,7 @@ export async function GET(request: NextRequest) {
       params: {
         ...(search !== "" && { search }),
         page,
-        perPage,
         ...(tag && { tag }),
-        ...(sortBy && { sortBy }),
       },
       headers: {
         Cookie: cookieStore.toString(),
@@ -29,14 +25,14 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(res.data, { status: res.status });
   } catch (error) {
     if (isAxiosError(error)) {
-      console.dir(error.response?.data);
+      logErrorResponse(error.response?.data);
       return NextResponse.json(
         { error: error.message, response: error.response?.data },
-        { status: error.response?.status ?? 500 },
+        { status: error.status },
       );
     }
 
-    console.dir({ message: (error as Error).message });
+    logErrorResponse(error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 },
@@ -58,14 +54,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(res.data, { status: res.status });
   } catch (error) {
     if (isAxiosError(error)) {
-      console.dir(error.response?.data);
+      logErrorResponse(error.response?.data);
       return NextResponse.json(
         { error: error.message, response: error.response?.data },
-        { status: error.response?.status ?? 500 },
+        { status: error.status },
       );
     }
 
-    console.dir({ message: (error as Error).message });
+    logErrorResponse(error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 },

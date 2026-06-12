@@ -65,7 +65,7 @@ export async function middleware(request: NextRequest) {
 
       if (await isSessionValid(response)) {
         return applySetCookie(
-          NextResponse.redirect(new URL("/profile", request.url)),
+          NextResponse.redirect(new URL("/", request.url)),
           response,
         );
       }
