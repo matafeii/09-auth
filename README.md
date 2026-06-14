@@ -37,3 +37,8 @@ npm run dev
 Tymofii Rodin
 
 GitHub: https://github.com/matafeii
+# NoteHub Auth
+
+🔗 Live Demo: https://09-auth-b29e.vercel.app/
+
+A modern notes management application built with Next.js, TypeScript and React.
