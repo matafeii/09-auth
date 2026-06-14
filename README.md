@@ -1,14 +1,39 @@
-# react-notehub-styles
+# NoteHub Auth
 
-🎨 CSS Modules for the “NoteHub" homework from the React + TypeScript course.
+A modern notes management application built with Next.js, TypeScript and React.
 
-This repository contains **ready-to-use styles** for the components used in the NoteHub project. Students should copy these `.module.css` files into their own project after creating the corresponding components manually.
+## Features
 
-## How to use
+* User authentication
+* Protected routes
+* Notes management
+* Search and filtering
+* Responsive interface
+* Modern React architecture
 
-1. Create your project manually using Vite + React + TypeScript.
-2. Create each component in `components/`, following the structure above.
-3. Copy the `.module.css` files from this repository into the appropriate folders.
-4. Use the provided class names in your JSX.
+## Tech Stack
 
-> No need to write your own styles — just focus on React and TypeScript logic.
+* Next.js
+* React
+* TypeScript
+* React Query
+* CSS Modules
+* REST API
+* Git
+
+## Project Goals
+
+This project was created as part of the GoIT Fullstack course to practice authentication, routing, state management and interaction with external APIs.
+
+## Installation
+
+```bash
+npm install
+npm run dev
+```
+
+## Author
+
+Tymofii Rodin
+
+GitHub: https://github.com/matafeii
