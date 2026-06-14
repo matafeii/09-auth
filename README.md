@@ -1,44 +1,134 @@
 # NoteHub Auth
 
-A modern notes management application built with Next.js, TypeScript and React.
+🔗 **Live Demo:** https://09-auth-b29e.vercel.app/
 
-## Features
+A modern notes management application built with Next.js, React, TypeScript and authentication support.
+
+## 📖 About Project
+
+NoteHub Auth is a full-featured frontend application created as part of the GoIT Fullstack Developer course.
+
+The project demonstrates modern React and Next.js development practices, including authentication, protected routes, state management, API communication, client-side rendering, and responsive UI design.
+
+The application allows users to manage notes, authenticate securely, search and filter content, and interact with external APIs through a modern frontend architecture.
+
+---
+
+## ✨ Features
 
 * User authentication
 * Protected routes
 * Notes management
 * Search and filtering
-* Responsive interface
+* Pagination
+* Responsive design
+* API integration
+* TypeScript support
 * Modern React architecture
 
-## Tech Stack
+---
+
+## 🛠 Tech Stack
 
 * Next.js
 * React
 * TypeScript
 * React Query
+* Axios
 * CSS Modules
 * REST API
 * Git
+* Vercel
 
-## Project Goals
+---
 
-This project was created as part of the GoIT Fullstack course to practice authentication, routing, state management and interaction with external APIs.
+## 🚀 Live Preview
 
-## Installation
+Visit the deployed application:
+
+https://09-auth-b29e.vercel.app/
+
+---
+
+## ⚙️ Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/matafeii/09-auth.git
+```
+
+Navigate to the project directory:
+
+```bash
+cd 09-auth
+```
+
+Install dependencies:
 
 ```bash
 npm install
+```
+
+Start development server:
+
+```bash
 npm run dev
 ```
 
-## Author
+Build production version:
 
-Tymofii Rodin
+```bash
+npm run build
+```
 
-GitHub: https://github.com/matafeii
-# NoteHub Auth
+---
 
-🔗 Live Demo: https://09-auth-b29e.vercel.app/
+## 🎯 Learning Objectives
 
-A modern notes management application built with Next.js, TypeScript and React.
+This project helped practice:
+
+* Next.js App Router
+* Authentication flows
+* Protected routes
+* TypeScript development
+* API integration
+* State management
+* React Query
+* Modern frontend architecture
+* Production deployment with Vercel
+
+---
+
+## 📂 Project Structure
+
+```text
+app/
+components/
+lib/
+hooks/
+types/
+public/
+```
+
+---
+
+## 👨‍💻 Author
+
+**Tymofii Rodin**
+
+Front-End Developer | React • TypeScript • Next.js
+
+📍 Kraków, Poland
+
+📧 [matafeii38@gmail.com](mailto:matafeii38@gmail.com)
+
+🔗 GitHub: https://github.com/matafeii
+
+🔗 LinkedIn: https://www.linkedin.com/in/tymofii-rodin-0771763b3/
+
+---
+
+## 📌 Project Status
+
+Completed as part of the GoIT Fullstack Developer program and actively maintained for learning and portfolio purposes.
