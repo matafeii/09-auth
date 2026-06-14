@@ -27,6 +27,13 @@ The application allows users to manage notes, authenticate securely, search and 
 * Modern React architecture
 
 ---
+## 🔐 Authentication Flow
+
+The application uses access and refresh tokens stored in cookies.
+
+Private routes are protected by middleware. If a user is not authenticated, they are redirected to the sign-in page. Public authentication routes redirect authenticated users back to the main application.
+
+The session is checked automatically, and refresh tokens are used to keep the user authorized when possible.
 
 ## 🛠 Tech Stack
 
