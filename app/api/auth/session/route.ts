@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { parse } from "cookie";
 import { isAxiosError } from "axios";
-import { api, logErrorResponse } from "../../api";
+import { api } from "../../api";
+import { logErrorResponse } from "../../_utils/utils";
 
 export async function GET() {
   try {
@@ -53,7 +54,7 @@ export async function GET() {
       return NextResponse.json({ success: false }, { status: 200 });
     }
 
-    logErrorResponse(error);
+    logErrorResponse({ message: (error as Error).message });
     return NextResponse.json({ success: false }, { status: 200 });
   }
 }

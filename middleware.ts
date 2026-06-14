@@ -29,6 +29,8 @@ const isSessionValid = async (response: Response) => {
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const accessToken = request.cookies.get("accessToken")?.value;
+  const refreshToken = request.cookies.get("refreshToken")?.value;
   const cookieHeader = request.headers.get("cookie") || "";
   const sessionUrl = new URL("/api/auth/session", request.url);
 
@@ -38,6 +40,14 @@ export async function middleware(request: NextRequest) {
   const isPublicRoute = publicRoutes.some((route) => pathname.startsWith(route));
 
   if (isPrivateRoute) {
+    if (accessToken) {
+      return NextResponse.next();
+    }
+
+    if (!refreshToken) {
+      return NextResponse.redirect(new URL("/sign-in", request.url));
+    }
+
     try {
       const response = await fetch(sessionUrl, {
         headers: {
@@ -56,6 +66,14 @@ export async function middleware(request: NextRequest) {
   }
 
   if (isPublicRoute) {
+    if (accessToken) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+
+    if (!refreshToken) {
+      return NextResponse.next();
+    }
+
     try {
       const response = await fetch(sessionUrl, {
         headers: {

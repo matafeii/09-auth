@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { isAxiosError } from "axios";
-import { api, logErrorResponse } from "../api";
+import { api } from "../api";
+import { logErrorResponse } from "../_utils/utils";
 
 export async function GET(request: NextRequest) {
   try {
@@ -15,6 +16,7 @@ export async function GET(request: NextRequest) {
       params: {
         ...(search !== "" && { search }),
         page,
+        perPage: 12,
         ...(tag && { tag }),
       },
       headers: {
@@ -32,7 +34,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    logErrorResponse(error);
+    logErrorResponse({ message: (error as Error).message });
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 },
@@ -61,7 +63,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    logErrorResponse(error);
+    logErrorResponse({ message: (error as Error).message });
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 },

@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { isAxiosError } from "axios";
-import { api, logErrorResponse } from "../../api";
+import { api } from "../../api";
+import { logErrorResponse } from "../../_utils/utils";
 
 export async function POST() {
   try {
@@ -31,7 +32,7 @@ export async function POST() {
       );
     }
 
-    logErrorResponse(error);
+    logErrorResponse({ message: (error as Error).message });
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 },
